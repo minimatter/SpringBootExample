@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p id="page">要显示的数据</p>
+<button>点击</button>
+<!--<div layout:fragment="content">-->
+<!--    <p th:text="'Hello！, ' + ${name} + '!'" >测试</p>-->
+<!--</div>-->
+<script>
+    // $(document).ready(function (){
+    //     $("button").click(function (){
+    //         $("p").hidden();
+    // });
+    // })
+    $("button").click(function (){
+        $("p").hidden();
+    });
+
+</script>
+<script>
+    // var i;
+    // var cars=new Array();
+    // cars[0]="one";
+    // cars[1]="two";
+    // cars[2]="three";
+    // cars[3]="four";
+    // for(i=0;i<4;i++)
+    // {
+    //     document.write(cars[i]+"<br>");
+    // }
+    //
+    // var ar=new Array("1","2","3");
+    // for (var j=0;j<3;j++)
+    // {
+    //     document.write(ar[j]+"<br>");
+    // }
+
+    // var Obj={
+    //     firstName:"zhang",
+    //     lastName:"san",
+    //     id:9527,
+    //     fullName:function (){
+    //         return this.firstName+"-"+this.lastName;
+    //     }
+    // };
+    // document.write(Obj.firstName+"<br>");
+    // document.write(Obj["lastName"]+"<br>");
+    //
+    // document.write(Obj.fullName());
+    // document.getElementById("page").innerHTML=Obj.fullName();
+    //
+    // function valiDataForm(){
+    //     var x=document.forms["myForm"]["email"].value;
+    //     var atpos=x.indexOf("@");
+    //     var dotpos=x.lastIndexOf(".");
+    //     if(atpos<1||dotpos<atpos+2||dotpos+2>=x.length){
+    //         alert("错误的Email地址！");
+    //         return false;
+    //     }
+    //     else alert("Email地址正确！");
+    //}
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{../js/jquery-2.1.1.min.js}"></script>
+</head>
+<body>
+<div>
+<!--    <a th:href="@{../toAddIndent()}"> <button >添加表单</button> </a>-->
+</div>
+<div>
+    <table id="list" border="1" cellspacing="0"width="50%">
+        <tr>
+            <th>编号</th>
+            <th>物品名称</th>
+            <th>单价</th>
+            <th>总价</th>
+            <th>部门</th>
+            <th>操作</th>
+        </tr>
+        <tr th:each="indent,userStat:${indentList}">
+            <td th:text="${userStat.index+1}"></td>
+            <td th:text="${indent.goodsName}"></td>
+            <td th:text="${indent.price}"></td>
+            <td th:text="${indent.total}"></td>
+            <td th:text="${indent.departmentStr}"></td>
+            <td>
+               <a th:href="@{../toEdit( id=${indent.id} )  }"><button >编辑</button></a>
+               <a th:onclick="'deleteIndent('+${indent.id}+')'"><button>删除</button></a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+
+<script>
+ function deleteIndent(id){
+     $.ajax({
+         url:'deleteIndent',
+         type:'get',
+         data:'id='+id,
+         success:function (){
+             alert("删除成功!");
+             location.reload();
+         }
+     })
+ }
+</script>
+</html>

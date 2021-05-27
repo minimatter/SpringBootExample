@@ -1,0 +1,77 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="index.html">
+
+    <!-- start: Content -->
+    <div layout:fragment="content" class="main ">
+
+
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2><i class="fa fa-indent red"></i><strong>详情</strong></h2>
+                    </div>
+                    <div class="panel-body">
+                        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal ">
+
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">姓名</label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static" th:text="${student.name}"></p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">年龄</label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static" th:text="${student.age}"></p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">文件</label>
+                                <div th:each="fileList:${student.uploadFileList}">
+                                    <a th:href="@{downloadFile(fileName=${fileList.uploadFileName},fileNameSrc=${fileList.uploadFileNameSrc})}" th:text="${fileList.uploadFileNameSrc}"></a>
+                                </div>
+                            </div>
+
+
+
+                            <br>
+
+                    </div>
+
+                    </form>
+                </div>
+            </div>
+
+
+        </div><!--/.row-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+    <!-- end: Content -->
+

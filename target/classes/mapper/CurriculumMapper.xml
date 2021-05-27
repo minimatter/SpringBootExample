@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="exam.dao.CurriculumDao" >
+
+
+    <insert id="insertCurriculum" parameterType="exam.bean.Curriculum">
+        INSERT INTO
+        curriculum (curriculumName,curriculumPeriod,curriculumType,credits,textbook,teacher,courseDate,curriculumClass,registrant,registerDate)
+        VALUES
+        (#{curriculumName},#{curriculumPeriod},#{curriculumType},#{credits},#{textbook},#{teacher},#{courseDate},#{curriculumClass},#{registrant},#{registerDate})
+    </insert>
+
+    <select id="queryCurriculum" resultType="exam.bean.Curriculum" parameterType="java.util.Map">
+        SELECT
+        curriculum.id,curriculumName,curriculumPeriod,curriculumTypeStr,credits,textbook,teacher,courseDate,curriculumClass,registrant,registerDate
+        FROM
+        curriculum,curriculumtype
+        <where>
+            curriculum.curriculumType=curriculumtype.id
+            <if test="id!=null">
+                AND curriculum.id=#{id}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryCurriculumType" resultType="exam.bean.CurriculumType" >
+        SELECT
+        id,curriculumTypeStr
+        FROM
+        curriculumType
+    </select>
+
+
+    <update id="updateCurriculum" parameterType="exam.bean.Curriculum" >
+        UPDATE
+        curriculum
+        <set>
+            curriculumName=#{curriculumName},
+            curriculumPeriod =#{curriculumPeriod},
+            curriculumType = #{curriculumType},
+            credits=#{credits},
+            textbook=#{textbook},
+            teacher= #{teacher},
+            courseDate=#{courseDate},
+            curriculumClass=#{curriculumClass},
+            registrant=#{registrant},
+            registerDate=#{registerDate}
+        </set>
+        WHERE
+        id=#{id}
+    </update>
+
+    <delete id="deleteCurriculum" parameterType="java.lang.Integer" >
+        DELETE FROM curriculum WHERE id=#{id}
+  </delete>
+
+</mapper>

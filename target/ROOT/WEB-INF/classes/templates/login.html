@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<link th:href="@{../css/bootstrap.min.css}" rel="stylesheet">
+<script th:src="@{../js/jquery-2.1.1.min.js}"></script>
+<script th:src="@{../js/layer/layer.js}"></script>
+
+<style>
+    #box{
+        width: 500px;
+        height: 300px;
+        border: 5px solid #e2e5e5;/*边界*/
+        border-radius:15px;/*边界弧度*/
+        position: absolute;/*位置固定*/
+        left: 50%;
+        right: 50%;
+        margin-left: -185px;
+        margin-top: 15%;
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="box">
+    <form id="signInForm" method="post" enctype="multipart/form-data" class="form-horizontal"  style="margin:40px;">
+        <div class="form-group">
+<!--            <label for="inputEmail3" class="col-sm-2 control-label">Email</label>-->
+<!--            <div class="col-sm-8">-->
+<!--                <input type="email" class="form-control" id="inputEmail3" placeholder="Email">-->
+<!--            </div>-->
+            <label class="col-sm-2 control-label">用户名</label>
+            <div class="col-sm-8">
+                <input type="text" name="userName" class="form-control" >
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="col-sm-2 control-label">Password</label>
+            <div class="col-sm-8">
+                <input type="password" name="userPassWord" class="form-control" placeholder="Password">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox"> Remember me
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" class="btn btn-primary" id="signIn"  >Sign in</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    $("#signIn").click(function (){
+        $.ajax({
+            url:'signIn',
+            type:'post',
+            data:$('#signInForm').serialize(),
+            success:function (result){
+                            console.log(result);
+                if(result)
+                    setTimeout(function () {
+                        window.location.href="/hello.html";
+                    },1500);
+
+            }
+            // success:function (data){
+            //     layer.msg("登录成功！");
+                // if(result.resultCode==200)
+                // layer.msg("登录成功！");
+                // setTimeout(function () {
+                //     window.location = ("index")
+                // },1500);
+            // }
+        })
+    })
+
+
+</script>
+
+
+</body>
+</html>

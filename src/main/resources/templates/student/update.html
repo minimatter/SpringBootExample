@@ -1,0 +1,237 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="index.html">
+
+
+<!-- start: Content -->
+<div layout:fragment="content" class="main ">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><i class="fa fa-home"></i><a href="../index.html">主页</a></li>
+                <li><i class="fa fa-list-alt"></i><a href="#">学生管理</a></li>
+                <li><i class="fa fa-indent"></i>修改学生信息</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2><i class="fa fa-indent red"></i><strong>修改学生信息</strong></h2>
+                </div>
+                <div class="panel-body">
+                    <form id="modularForm" action="" method="post" enctype="multipart/form-data"
+                          class="form-horizontal ">
+                        <input type="hidden" name="id" th:value="${student.id}"/>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="text-input">姓名</label>
+                            <div class="col-md-9">
+                                <input type="text" name="name" class="form-control" th:value="${student.name}">
+                                <span class="help-block">请输入姓名</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="text-input">年龄</label>
+                            <div class="col-md-9">
+                                <input type="text" name="age" class="form-control" th:value="${student.age}">
+                                <span class="help-block">请输入年龄</span>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group" id="uploadFileDiv">
+                            <label class="col-md-3 control-label" for="text-input">添加文件</label>
+                            <div class="col-md-9">
+                                <!--                                <input onclick="addFile()" type="file" id="fileUpload" name="uploadFile">-->
+
+                                <div>
+                                    <div id="fileBase">
+
+                                        <input type="file" name="uploadFileBase" value="上传文件" id="fileFlag"
+                                               style="display: none;"/>
+                                        <span></span>
+                                        <button onclick="javascript:$(this).parent().remove();" hidden>删除</button>
+                                    </div>
+
+                                    <input type="button" id="btn" value="上传文件" onclick="GetFile();"/>
+                                </div>
+
+                                <span class="help-block"></span>
+                                <div th:unless="${#lists.isEmpty(student.uploadFileList)}"
+                                     th:each="fileList,state:${student.uploadFileList}">
+
+                                    <input type="hidden" th:name="${'uploadFileList['+state.index+'].id'}"
+                                           th:value="${fileList.id}">
+                                    <a th:href="@{downloadFile(fileName=${fileList.uploadFileName},fileNameSrc=${fileList.uploadFileNameSrc})}"
+                                       th:text="${fileList.uploadFileNameSrc}"></a>
+                                    <button id="de" onclick="javascript:$(this).parent().remove();">删除</button>
+
+                                </div>
+                                <div>
+
+                                    <div id="flag"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="testDiv"></div>
+
+
+                        <br>
+
+                </div>
+                <div class="panel-footer">
+                    <button id="submitBtn" type="submit" class="btn btn-sm btn-success"><i
+                            class="fa fa-dot-circle-o"></i> 保存
+                    </button>
+                    <button type="button" class="btn btn-sm btn-success" onclick="history.back()"><i
+                            class="fa fa-dot-circle-o"></i> 返回
+                    </button>
+                </div>
+                </form>
+            </div>
+        </div>
+
+
+    </div><!--/.row-->
+
+
+    <script>
+
+        //提交时进行jQuery表单验证
+        $("#modularForm").validate({
+
+            submitHandler: function (form) {
+
+                $("#modularForm").ajaxSubmit({
+                    url: 'update',
+                    type: 'post',
+                    success: function (data) {
+                        layer.msg("修改成功");
+                        setTimeout(function () {
+                            window.location = ("student")
+                        }, 1500);
+                    }
+                });
+
+
+            }
+
+
+        })
+
+
+        // $("#submitBtn").click(function () {
+        //     $.ajax({
+        //         url: 'update',
+        //         type: 'post',
+        //         data: $('#modularForm').serialize(),
+        //         success: function (data) {
+        //             layer.msg("修改成功");
+        //             setTimeout(function () {
+        //                 window.location = ("student")
+        //             }, 1500);
+        //         }
+        //     })
+        // })
+
+        function addUploadFile() {
+            let addItem = $('#uploadFileDiv').clone();
+
+            $(addItem).find("button").html("删除").attr("onclick", "javascript:$(this.parentNode.parentNode).remove();");
+
+            $("#testDiv").before(addItem);
+        }
+
+        function addFile() {
+            var file = $("#fileUpload").val();
+            var fileName = getFileName(file);
+
+            function getFileName(o) {
+                var pos = o.lastIndexOf("\\");
+                return o.substring(pos + 1);
+            }
+
+            console.log("hello");
+            console.log(fileName);
+        }
+
+    </script>
+
+    <script>
+
+        /**
+         * 你本身是无法阻止文件域的onchange事件多次 被 触发的, change(function(){....}); 方法会被多次执行的, 这个是无法改变的!
+         *
+         *
+         * 方法1
+         * 当每次 执行change()方法的是, 通过一个标志变量, 来判断change方法是否已经被执行,
+         * 当由 标志变量 探测到change方法 已经被执行过时就直接让 change方法退出
+         *
+         * 方法2
+         * 通过先解绑事件，再重新绑定就可以解决了
+         * $("#file").off('change').on('change',function(){})
+         */
+
+        function GetFile() {
+
+            // $("#fileName").append("<input type="file" value="上传文件" id="file" hidden/>");
+
+            $("#fileFlag").click();			// 触发fie域点击事件动作
+
+            var changeExed = false;			// 这个是标志变量, changeExed: change is executed?
+
+            $("#fileFlag").change(function () {
+                if (!changeExed) {
+                    changeExed = true;		// 执行一次后, changeExed就设置为true, 所以该代码段 只能执行一次,
+
+                    var file = $("#fileFlag").val();
+
+                    var addItem = $('#fileBase').clone();
+
+                    var obj = $("#fileFlag")[0];
+                    var len = $("#fileFlag")[0].files.length;
+
+                    for (var i = 0; i < len; i++) {
+                        var path = obj.files[i].name;
+                        //var temp = path.substring(path.lastIndexOf("\\")+1,path.lastIndexOf("."));
+                        var fileName = getFileName(path);
+
+                        addItem.find("input").after("<span>" + fileName + "</span>");
+
+
+                    }
+                    console.log(fileName);
+
+
+                    function getFileName(o) {
+                        var pos = o.lastIndexOf("\\");
+                        return o.substring(pos + 1);
+                    };
+                    //var fileName = getFileName(file);
+
+
+                    // $(addItem).find("input").attr({
+                    // 	"id": "fileUpload",
+                    // 	"hideen":"hideen"
+                    // });
+                    $(addItem).find("input").attr("name", "uploadFile");
+                    $(addItem).find("button").removeAttr("hidden");
+                    // $(addItem).find("span").text(fileName);
+
+                    $("#flag").before(addItem);
+                    console.log("文件名" + file);
+                }
+            });
+
+
+        }
+
+    </script>
+
+</div>
+<!-- end: Content -->
+

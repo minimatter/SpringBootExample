@@ -1,0 +1,129 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="index.html">
+
+
+    <!-- start: Content -->
+    <div layout:fragment="content" class="main ">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <ol class="breadcrumb">
+                    <li><i class="fa fa-home"></i><a href="../index.html">主页</a></li>
+
+                    <li><i class="fa fa-indent"></i>添加教师信息</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2><i class="fa fa-indent red"></i><strong>添加教师信息</strong></h2>
+                    </div>
+                    <div class="panel-body">
+                        <form id="modularForm" action="" method="post" enctype="multipart/form-data" class="form-horizontal ">
+
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="text-input">教师编号</label>
+                                <div class="col-md-9">
+                                    <input type="text" id="text-input" name="teacherNumber" class="form-control" placeholder="教师编号">
+                                    <span class="help-block">请输入教师编号</span>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="text-input">教师类型</label>
+                                <div class="col-md-9">
+                                    <select id="teacherType" name="teacherType" class="form-control">
+
+
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="text-input">所在学院</label>
+                                <div class="col-md-9">
+                                    <input type="text" id="text-input" name="teacherCollege" class="form-control" placeholder="所在学院">
+                                    <span class="help-block">请输入教师所在学院</span>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="text-input">测试session</label>
+                                <div class="col-md-9">
+                                    <input type="text" id="text-input"  class="form-control" placeholder="测试session" th:value="${session.username}">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+
+
+                            <br>
+
+                    </div>
+                    <h1>helloWorld</h1>
+                    <div class="panel-footer">
+                        <button id="submitBtn" type="button" class="btn btn-sm btn-success"><i class="fa fa-dot-circle-o"></i> 提交</button>
+                        <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i>重置</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+
+
+        </div><!--/.row-->
+
+
+        <script>
+
+            $(function (){
+                $("#teacherType").append("<option value='-1'>请选择</option>>")
+                initTeacherType();
+                }
+            )
+
+            function initTeacherType(){
+                $.ajax({
+                    url:'selectTeacherType',
+                    type: 'get',
+
+                    success:function (data){
+                        for(var i in data){
+                            $("#teacherType").append("<option value="+data[i].id+">"+data[i].teacherTypeName+"</option>")
+                        }
+                    }
+                })
+            }
+
+            $("#submitBtn").click(function () {
+                $.ajax({
+                    url:'add',
+                    type:'post',
+                    data:$('#modularForm').serialize(),
+                    success:function (data) {
+                        layer.msg("添加成功");
+                        setTimeout(function () {
+                            window.location = ("teacher")
+                        },1500);
+                    }
+                })
+            })
+
+
+
+        </script>
+
+    </div>
+
+
+
+
+    <!-- end: Content -->
+

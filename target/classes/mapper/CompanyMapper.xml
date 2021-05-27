@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="exam.dao.CompanyDao" >
+    <sql id="BASE_TABLE">
+        company
+    </sql>
+
+    <sql id="BASE_COLUMN">
+        undertake,companyName,companyNature,companyType,sign,signingDateEnd,companySize,contacts,attachment,remarks,identity,storageDate
+    </sql>
+
+    <insert id="insertCompany" parameterType="exam.bean.Company">
+        INSERT INTO
+        <include refid="BASE_TABLE"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            undertake,companyName,companyNature,companyType,sign,signingDateEnd,companySize,contacts,attachment,remarks,identity,storageDate
+
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            #{undertake, jdbcType=VARCHAR},#{companyName, jdbcType=INTEGER},#{companyNature},#{companyType,jdbcType=DATE},#{sign,jdbcType=DATE},#{signingDateEnd},#{companySize},#{contacts},#{attachment},#{remarks},#{identity},#{storageDate}
+
+        </trim>
+    </insert>
+
+    <select id="queryUndertake" resultType="exam.bean.Undertake" >
+        select
+        id,undertake
+        from
+        undertake
+    </select>
+
+
+    <select id="selectCompany" resultType="exam.bean.Company" parameterType="java.util.Map">
+        SELECT
+        <include refid="BASE_COLUMN"/>
+        FROM
+        company
+        <where>
+        <if test="undertake!=null and undertake!=-1">
+            and undertake=#{undertake}
+        </if>
+            <if test="admissionDateBegin != null and admissionDateBegin != '' ">
+
+                <![CDATA[ and DATE_FORMAT(signingDateEnd,'%Y-%m-%d') >= DATE_FORMAT(#{admissionDateBegin},'%Y-%m-%d')  ]]>
+            </if>
+
+            <if test="admissionDateEnd != '' and admissionDateEnd != null ">
+                <![CDATA[ and DATE_FORMAT(signingDateEnd,'%Y-%m-%d') <= DATE_FORMAT(#{admissionDateEnd},'%Y-%m-%d') ]]>
+            </if>
+        </where>
+
+    </select>
+
+
+<!--    <update id="updateStudent" parameterType="exam.bean.Student" >-->
+
+<!--    </update>-->
+
+<!--    <delete id="deleteStudent" parameterType="java.lang.Integer" >-->
+<!--    delete from-->
+<!--        <include refid="BASE_TABLE"/>-->
+<!--    where id = #{id,jdbcType=INTEGER}-->
+<!--  </delete>-->
+
+</mapper>

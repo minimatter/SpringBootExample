@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="exam.dao.StudentDao" >
+    <sql id="BASE_TABLE">
+        student
+    </sql>
+
+    <sql id="BASE_COLUMN">
+        id,`name`,age
+    </sql>
+
+    <insert id="insertStu" parameterType="exam.bean.Student">
+        INSERT INTO
+        <include refid="BASE_TABLE"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            `name`,age,major,registrantDate,admissionDate,uploadFileID
+
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            #{name, jdbcType=VARCHAR},#{age, jdbcType=INTEGER},#{major},#{registrantDate,jdbcType=DATE},#{admissionDate,jdbcType=DATE},#{uploadFileID}
+
+        </trim>
+    </insert>
+
+    <select id="queryStudentMajor" resultType="exam.bean.StudentMajor" >
+        select
+        id,major
+        from
+        studentMajor
+    </select>
+
+
+    <select id="selectStudent" resultType="exam.bean.Student" parameterType="java.util.Map">
+        SELECT
+        student.id,`name`,age,studentmajor.major as majorStr,admissionDate,uploadFileID
+        FROM
+        student,studentMajor
+        <where>
+            student.major=studentmajor.id
+
+            <if test="id != null">
+              and student.id=#{id,jdbcType=INTEGER}
+
+            </if>
+
+            <if test="name != null and name !=''">
+                and
+                student.`name`
+                like
+                concat('%',#{name,jdbcType=VARCHAR},'%')
+
+            </if>
+
+            <if test="age !=null and age !=''">
+                and student.age=#{age,jdbcType=INTEGER}
+
+            </if>
+            <if test="major !=null and major !=-1">
+                and student.major=#{major,jdbcType=INTEGER}
+
+            </if>
+
+
+<!--            <if test="admissionDate !=null ">-->
+<!--                and-->
+<!--                admissionDate-->
+<!--                between-->
+<!--                concat(#{admissionDate},' 00:00:00')-->
+<!--                and-->
+<!--                concat(#{admissionDate},' 23:59:59')-->
+
+<!--            </if>-->
+
+
+            <if test="admissionDateBegin != null and admissionDateBegin != '' ">
+--                 判定[]类的符号没有特殊字符DATE_FORMAT(admissionDate,'%Y-%m-%d')
+                 <![CDATA[ and DATE_FORMAT(admissionDate,'%Y-%m-%d') >= DATE_FORMAT(#{admissionDateBegin},'%Y-%m-%d')  ]]>
+            </if>
+
+            <if test="admissionDateEnd != '' and admissionDateEnd != null ">
+                 <![CDATA[ and DATE_FORMAT(admissionDate,'%Y-%m-%d') <= DATE_FORMAT(#{admissionDateEnd},'%Y-%m-%d') ]]>
+            </if>
+
+            <if test=" uploadFileName !=null">
+                and student.uploadFileID=#{uploadFileID,jdbcType=INTEGER}
+
+            </if>
+
+        </where>
+    </select>
+
+
+    <update id="updateStudent" parameterType="exam.bean.Student" >
+        update
+        <include refid="BASE_TABLE"/>
+        <set >
+            <if test="name != null" >
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null" >
+                age = #{age,jdbcType=INTEGER},
+            </if>
+
+            <if test="uploadFileID!=null">
+                uploadFileID=#{uploadFileID}
+            </if>
+
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteStudent" parameterType="java.lang.Integer" >
+    delete from
+        <include refid="BASE_TABLE"/>
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+</mapper>

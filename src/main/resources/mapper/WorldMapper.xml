@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="exam.dao.WordDao">
+<!--    采购单-->
+    <sql id="INDENT_TABLE">
+        indent
+    </sql>
+    <sql id="INDENT_COLUMN">
+        id,goodsName,price,total,department
+    </sql>
+
+<!--    采购部门列表-->
+    <sql id="DP_TABLE">
+        department
+    </sql>
+    <sql id="DP_COLUMN">
+        id,department
+    </sql>
+
+
+
+
+    <select id="queryIndent" parameterType="java.util.Map" resultType="exam.bean.Indent">
+        SELECT
+        indent.id,goodsName,price,total,indent.department,department.department AS departmentStr
+        FROM
+        indent,department
+            <where>
+                indent.department=department.id
+                <if test="id != null">
+                  AND  indent.id=#{id}
+                </if>
+
+            </where>
+    </select>
+    
+    <select id="queryDP" resultType="exam.bean.Department">
+        SELECT
+        <include refid="DP_COLUMN"/>
+        FROM 
+        <include refid="DP_TABLE"/>
+    </select>
+    
+    
+    <insert id="insertIndent" parameterType="exam.bean.Indent">
+        INSERT INTO indent (goodsName,price,total,department) VALUES  (#{goodsName},#{price},#{total},#{department})
+    </insert>
+
+    <update id="updateIndent" parameterType="exam.bean.Indent">
+        UPDATE
+        indent
+        <set>
+        goodsName=#{goodsName},
+        price=#{price},
+        total=#{total},
+        department=#{department}
+        </set>
+        WHERE
+        id=#{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteIndent" parameterType="java.lang.Integer">
+        DELETE FROM indent WHERE id=#{id}
+    </delete>
+</mapper>

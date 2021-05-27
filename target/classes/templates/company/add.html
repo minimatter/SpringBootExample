@@ -1,0 +1,238 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="index.html">
+
+
+    <!-- start: Content -->
+    <div layout:fragment="content" class="main ">//映射到layout
+
+        <div class="row">
+            <div class="col-lg-12">
+                <ol class="breadcrumb">
+                    <li><i class="fa fa-home"></i><a href="../index.html">主页</a></li>
+
+                    <li><i class="fa fa-indent"></i>添加公司信息</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2><i class="fa fa-indent red"></i><strong>添加公司信息</strong></h2>
+                    </div>
+                    <div class="panel-body">
+<!--                        enctype="multipart/form-data"提交文件支持-->
+                        <form id="modularForm" action="" method="post" enctype="multipart/form-data" class="form-horizontal ">
+
+
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="text-input" required>承办部门</label>
+                                <div class="col-lg-2 col-md-2">
+                                    <select id="majorList" name="undertake" class="form-control" type="selectNotNull">
+                                        <option value="-1">请选择</option>
+                                    </select>
+                                    <span class="help-block">请选择承办部门</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="text-input">公司名称</label>
+                                <div class="col-md-9">
+                                    <input type="text" id="text-input" name="companyName" class="form-control" placeholder="公司名称">
+                                    <span class="help-block">请输入公司名称</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="text-input">公司性质</label>
+                                <div class="col-md-9">
+                                    <input type="text" id="text-input" name="companyNature" class="form-control" placeholder="公司性质">
+                                    <span class="help-block">请输入公司性质</span>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="text-input">公司类型</label>
+                                <div class="col-md-9">
+                                    <input type="text" id="text-input" name="companyType" class="form-control" placeholder="公司类型">
+                                    <span class="help-block">请输入公司类型</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="text-input">是否签署协议</label>
+                                <div class="col-md-9">
+                                    <input type="text" id="text-input" name="sign" class="form-control" placeholder="公司类型">
+                                    <span class="help-block">请输入公司类型</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="text-input">公司性质</label>
+                                <div class="col-md-9">
+                                    <input type="text" id="text-input" name="companyNature" class="form-control" placeholder="公司性质">
+                                    <span class="help-block">请输入公司性质</span>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="text-input">协议终止时间</label>
+                                <div class="col-md-9">
+                                    <input  type="text" id="admissionDateID" name="signingDateEnd" readonly class="form-control" placeholder="协议终止时间">
+                                    <span class="help-block">协议终止时间</span>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="text-input">公司规模</label>
+                                <div class="col-md-9">
+                                    <input type="text" id="text-input" name="companySize" class="form-control" placeholder="公司规模">
+                                    <span class="help-block">请输入公司规模</span>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="text-input">联系人</label>
+                                <div class="col-md-9">
+                                    <input type="text" id="text-input" name="contacts" class="form-control" placeholder="联系人">
+                                    <span class="help-block">请输入联系人</span>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="text-input">测试session</label>
+                                <div class="col-md-9">
+                                    <input type="text" id="text-input"  class="form-control" placeholder="测试session" th:value="${session.username}">
+                                    <span class="help-block"></span>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="uploadFileDiv">
+                                <label class="col-md-3 control-label" for="text-input">附件</label>
+                                <div class="col-md-9">
+                                    <input type="file" id="fileUpload" name="attachmentFile" multiple>
+                                    <span class="help-block"></span>
+                                    <button onclick="addUploadFile()">添加</button>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="text-input">备注</label>
+                                <div class="col-md-9">
+                                    <input type="text" id="text-input" name="remarks" class="form-control" placeholder="备注">
+                                    <span class="help-block">备注</span>
+                                </div>
+                            </div>
+
+                            <div id="testDiv"></div>
+                            <br>
+
+                    </div>
+                    <div class="panel-footer">
+                        <button id="submitBtn" type="submit" class="btn btn-sm btn-success"><i class="fa fa-dot-circle-o"></i> 提交</button>
+                        <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i>重置</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+
+
+        </div><!--/.row-->
+
+
+        <script>
+
+
+
+            setDatePicker("#admissionDateID");
+
+            $(document).ready(function (){
+                $.ajax({
+                    url:'getUndertake',
+                    type: 'get',
+                    success:function (data){ //注意！！！！！！
+                        for(var i in data)
+                        {
+                                $("#majorList").append("<option value="+data[i].id+">"+data[i].undertake+"</option>")
+                        }
+                    }
+                })
+            })
+
+
+            //提交时进行jQuery表单验证
+            $("#modularForm").validate({
+
+                submitHandler:function (form){
+
+                    $("#modularForm").ajaxSubmit({
+                        url:'add',
+                        type:'post',
+                        success:function(data){
+                            layer.msg("添加成功");
+                            setTimeout(function (){
+                                window.location=("company")
+                            },1500);
+                        }
+                    });
+
+
+
+                }
+
+
+
+            })
+
+
+
+
+            function addUploadFile(){
+                let addItem=$('#uploadFileDiv').clone();
+
+                $(addItem).find("button").html("删除").attr("onclick","javascript:$(this.parentNode.parentNode).remove();");
+
+                $("#testDiv").before(addItem);
+            }
+
+
+            // $("#submitBtn").click(function () {
+            //     console.log($("#admissionDateID").val())
+            //     $.ajax({
+            //         url:'add',
+            //         type:'post',
+            //         data:$('#modularForm').serialize(),
+            //         success:function (data) {
+            //             layer.msg("添加成功");
+            //             setTimeout(function () {
+            //                 window.location = ("student")
+            //             },1500);
+            //         }
+            //     })
+            // })
+
+
+
+
+
+        </script>
+
+    </div>
+
+
+
+
+    <!-- end: Content -->
+
