@@ -4,11 +4,10 @@ import exam.bean.User;
 import exam.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,9 +34,9 @@ public class LoginInController {
     @Autowired
     private IUserService userService;
 
-    @ResponseBody
+
     @RequestMapping("/signIn")
-    public String  signIn(String userName,String userPassWord){
+    public String  signIn(String userName, String userPassWord, HttpServletResponse response){
         Map<String,Object> map=new HashMap<>();
         map.put("userName",userName);
         map.put("userPassWord",userPassWord);
@@ -45,10 +44,10 @@ public class LoginInController {
 * 因为JAVA中String并非基本数据类型而是一个类, 变量名实际代表地址,
 *==运算符只能够确定两个字符串是否放在同一个地址
 * */
-        if(userService.loginIn(map).equals("ture")){
-            return " 成功";
+        if(userService.loginIn(map,response).containsKey("ture")){
+            return "forward:/students/student";
         }else {
-            return "失败";
+            return "loginIn/loginIn";
         }
 
     }

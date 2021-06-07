@@ -1,53 +1,55 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      >
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org"-->
+<!--      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"-->
+<!--      >-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Title</title>-->
 
-    <script th:src="@{../js/jquery-2.1.1.min.js}"></script>
-    <script>
-        $(document).ready(function (){
-            //复制下拉框
-            var id=0;
-            $("#shell").on("click","#copy",function (){
-                //每复制一个下拉框id+1
-                id=id+1;
-                $("#shell").append("<div id=" +id+ ">" +$(this).parent().html() + "</div>");
-            })
-            //删除下拉框
-            $("#shell").on("click","#delete",function (){
-                var temp=$(this).parent().attr("id");
-                $("#"+temp).remove();
-            })
+<!--    <script th:src="@{../js/jquery-2.1.1.min.js}"></script>-->
+<!--    <script>-->
+<!--        $(document).ready(function (){-->
+<!--            //复制下拉框-->
+<!--            var id=0;-->
+<!--            $("#shell").on("click","#copy",function (){-->
+<!--                //每复制一个下拉框id+1-->
+<!--                id=id+1;-->
+<!--                $("#shell").append("<div id=" +id+ ">" +$(this).parent().html() + "</div>");-->
+<!--            })-->
+<!--            //删除下拉框-->
+<!--            $("#shell").on("click","#delete",function (){-->
+<!--                var temp=$(this).parent().attr("id");-->
+<!--                $("#"+temp).remove();-->
+<!--            })-->
 
-        })
-
-
-    </script>
-</head>
-<body>
-
-<div id="shell">
+<!--        })-->
 
 
-    <div id="0">
-        <select>
-            <option>列表</option>
-            <option>列表</option>
-            <option>列表</option>
-        </select>
-        <button id="copy">复制</button>
-        <button id="delete">删除</button>
-    </div>
+<!--    </script>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<div id="shell">-->
 
 
-</div>
+<!--    <div id="0">-->
+<!--        <select>-->
+<!--            <option>列表</option>-->
+<!--            <option>列表</option>-->
+<!--            <option>列表</option>-->
+<!--        </select>-->
+<!--        <button id="copy">复制</button>-->
+<!--        <button id="delete">删除</button>-->
+<!--    </div>-->
 
 
+<!--</div>-->
 
 
 
-</body>
-</html>
+
+
+<!--</body>-->
+<!--</html>-->
+
+

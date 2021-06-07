@@ -20,6 +20,9 @@ public class CurriculumController {
     @Autowired
     ICurriculumService curriculumService;
 
+
+    
+    
     @GetMapping("/toCurriculum")
     public String toCurriculum(@RequestParam(name = "pageNum", required = false, defaultValue = "1")
                                    int pageNum,
